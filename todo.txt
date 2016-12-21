@@ -1,0 +1,28 @@
+* Needs to fill in missing dependencies from sources
+ * Map of missing versions
+
+* Needs to take various resolution rules from a source
+ * substitute
+ * replacedBy
+ * force
+ * resolutionRules useTarget
+
+ * different collections of maps with sufficient info to create
+
+* Locks always win and short circuit an alignment rule
+ * Lock comes in as calculated Map
+
+* tests
+ * ordering of things
+ * locks always win
+ * 
+
+
+* DependencyInsight override
+ * collect
+  * forces
+  * transitives
+  * families
+  * useTargets if possible
+
+  a:b:1.0.0 - > 1.4.2 (locked at 1.4.2, without lock at 1.5.0) [align], [force], [direct dynamic->1.5.0 or request 1.2.2], transitive y via foo, z via bar, aligned in family because saw a version )
