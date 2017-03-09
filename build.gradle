@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Netflix, Inc.
+ * Copyright 2017 Netflix, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,29 +15,35 @@
  *
  */
 plugins {
-    id 'com.gradle.plugin-publish' version '0.9.7'
-    id 'nebula.plugin-plugin' version '4.24.2'
-    id 'nebula.kotlin' version '1.0.5-2'
+    id "com.gradle.plugin-publish" version "0.9.7"
+    id "nebula.plugin-plugin" version "5.1.1"
+    id "java-gradle-plugin"
+    id "nebula.kotlin" version "1.1.0"
 }
 
-apply plugin: 'kotlin'
+apply plugin: "kotlin"
 
 contacts {
-    'rob.spieldenner@gmail.com' {
-        moniker 'Rob Spieldenner'
-        github 'rspieldenner'
+    "rob.spieldenner@gmail.com" {
+        moniker "Rob Spieldenner"
+        github "rspieldenner"
     }
 }
 
-description 'A base plugin to improve dependency insight and handle all dependency applies'
+dependencies {
+    compile "com.github.zafarkhaja:java-semver:0.+"
+    testCompile "com.netflix.nebula:nebula-test:5.+"
+}
+
+description = "A base plugin to improve dependency insight and handle all dependency applies"
 
 pluginBundle {
     plugins {
         nebulaDependencyBase {
-            id = 'nebula.dependency-base'
-            displayName = 'Nebula '
+            id = "nebula.dependency-base"
+            displayName = "Nebula Dependency Base"
             description = project.description
-            tags = ['nebula', 'dependency', 'dependencies', 'dependency-insight']
+            tags = ["nebula", "dependency", "dependencies", "dependency-insight"]
         }
     }
 }
