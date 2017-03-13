@@ -15,7 +15,6 @@
  */
 package com.netflix.nebula.dependencybase
 
-import com.netflix.nebula.dependencybase.DependencyManagement
 import spock.lang.Specification
 
 class DependencyManagementSpec extends Specification {
@@ -24,7 +23,7 @@ class DependencyManagementSpec extends Specification {
         def management = new DependencyManagement()
 
         expect:
-        management.getReason("fake:dep") == ""
+        management.getReason("compile", "fake:dep") == ""
     }
 
     def "able to add a recommendation and retrieve reason"() {
@@ -33,40 +32,25 @@ class DependencyManagementSpec extends Specification {
         final coordinate = "test.nebula:foo"
 
         when:
-        management.addRecommendation(coordinate, "1.0.0", "TestRecommender")
+        management.addRecommendation("compile", coordinate, "1.0.0", "TestRecommender", "test")
 
         then:
-        management.recommendations.size() == 1
-        management.recommendations[coordinate].size() == 1
-        management.getReason(coordinate) == "recommend: 1.0.0 via TestRecommender"
+        management.reasons.size() == 1
+        management.getReason("compile", coordinate) == "recommend 1.0.0 via TestRecommender"
     }
 
-    def "add multiple recommendations choose the highest, when highest first"() {
+    def "handle non semver versions"() {
         given:
         def management = new DependencyManagement()
         final coordinate = "test.nebula:foo"
 
         when:
-        management.addRecommendation(coordinate, "1.2.0", "OtherRecommender")
-        management.addRecommendation(coordinate, "1.0.0", "TestRecommender")
+        management.addRecommendation("compile", coordinate, "1.2", "OtherRecommender", "test")
+        management.addRecommendation("compile", coordinate, "1.0", "TestRecommender", "test")
 
         then:
-        management.recommendations.size() == 1
-        management.recommendations[coordinate].size() == 2
-        management.getReason(coordinate) == "recommend: 1.2.0 via OtherRecommender skip TestRecommender"
-    }
-
-    def "add multiple recommendations choose the highest, when lowest first"() {
-        given:
-        def management = new DependencyManagement()
-        final coordinate = "test.nebula:foo"
-
-        when:
-        management.addRecommendation(coordinate, "1.0.0", "TestRecommender")
-        management.addRecommendation(coordinate, "1.2.0", "OtherRecommender")
-
-        then:
-        management.getReason(coordinate) == "recommend: 1.2.0 via OtherRecommender skip TestRecommender"
+        management.reasons.size() == 2
+        management.getReason("compile", coordinate) == "recommend 1.0 via TestRecommender, recommend 1.2 via OtherRecommender"
     }
 
     def "force"() {
@@ -75,11 +59,10 @@ class DependencyManagementSpec extends Specification {
         final coordinate = "test.nebula:foo"
 
         when:
-        management.forced("test.nebula:foo")
-        management.addRecommendation(coordinate, "1.0.0", "TestRecommender")
-        management.addRecommendation(coordinate, "1.2.0", "OtherRecommender")
+        management.addForce("compile", "test.nebula:foo")
+        management.addRecommendation("compile", coordinate, "1.2.0", "OtherRecommender", "test")
 
         then:
-        management.getReason(coordinate) == "forced, ignore recommend: 1.2.0 via OtherRecommender skip TestRecommender"
+        management.getReason("compile", coordinate) == "recommend 1.2.0 via OtherRecommender, forced"
     }
 }

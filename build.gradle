@@ -31,7 +31,6 @@ contacts {
 }
 
 dependencies {
-    compile "com.github.zafarkhaja:java-semver:0.+"
     testCompile "com.netflix.nebula:nebula-test:5.+"
 }
 

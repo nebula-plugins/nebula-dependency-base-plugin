@@ -49,7 +49,7 @@ open class NebulaDependencyInsightReportTask : DependencyInsightReportTask() {
         }
 
 
-        val output = getTextOutputFactory().create(javaClass)
+        val output = textOutputFactory.create(javaClass)
         val renderer = GraphRenderer(output)
 
         val result = configuration!!.getIncoming().getResolutionResult()
@@ -85,7 +85,7 @@ open class NebulaDependencyInsightReportTask : DependencyInsightReportTask() {
                 out.withStyle(StyledTextOutput.Style.Identifier).text(dependency.name)
 
                 if (dependency.description?.isNotEmpty()?:false) {
-                    out.withStyle(StyledTextOutput.Style.Description).text(" (${reasonLookup?.getReason(calculateCoordinateFromId(dependency.id))})")
+                    out.withStyle(StyledTextOutput.Style.Description).text(" (${reasonLookup?.getReason(configuration.name, calculateCoordinateFromId(dependency.id))})")
                 }
 
                 when (dependency.resolutionState) {
@@ -103,7 +103,8 @@ open class NebulaDependencyInsightReportTask : DependencyInsightReportTask() {
 
         }
 
-
+        output.println()
+        output.println(reasonLookup?.getGlobalMessages())
         legendRenderer.printLegend()
     }
 

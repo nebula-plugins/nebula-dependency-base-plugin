@@ -15,8 +15,8 @@
  */
 package com.netflix.nebula.dependencybase.internal
 
-data class Recommendation(override val configuration: String, override val coordinate: String, val version: String, val source: String): Reason {
-    override fun getReason(): String {
-        return "recommend $version via $source"
-    }
+interface Reason {
+    val configuration: String
+    val coordinate: String
+    fun getReason(): String
 }
