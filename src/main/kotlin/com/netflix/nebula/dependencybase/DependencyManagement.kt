@@ -15,44 +15,36 @@
  */
 package com.netflix.nebula.dependencybase
 
-import com.github.zafarkhaja.semver.Version
-import com.netflix.nebula.dependencybase.internal.Recommendation
+import com.netflix.nebula.dependencybase.internal.*
 
 class DependencyManagement {
-    val recommendations : MutableMap<String, MutableSet<Recommendation>> = mutableMapOf()
-    val forces : MutableSet<String> = mutableSetOf()
+    val reasons: MutableList<Reason> = mutableListOf()
+    val pluginMessages: MutableSet<String> = mutableSetOf()
 
-    fun addRecommendation(coordinate: String, version: String, source: String) {
-        val myset = recommendations.getOrPut(coordinate) { mutableSetOf<Recommendation>() }
-        myset.add(Recommendation(coordinate, Version.valueOf(version), source))
+    fun addRecommendation(configuration: String, coordinate: String, version: String, source: String, plugin: String) {
+        reasons.add(Recommendation(configuration, coordinate, version, source))
     }
 
-    fun forced(coordinate: String) = forces.add(coordinate)
-
-    fun forced(group: String, name: String) = forced(groupNameToCoordinate(group, name))
-
-    fun getRecommendedVersion(coordinate: String): String = recommendations[coordinate]?.max()?.version?.toString() ?: ""
-
-    fun getRecommendedVersion(group: String, name: String): String = getRecommendedVersion(groupNameToCoordinate(group, name))
-
-    fun getReason(coordinate: String): String {
-        val reason = StringBuilder()
-        var shouldAddIgnore = false
-
-        if (forces.contains(coordinate)) {
-            reason.append("forced")
-            shouldAddIgnore = true
-        }
-
-        val recs = recommendations[coordinate]
-        val max = recs?.max() ?: return reason.toString()
-        val recsLessMax = recs.minus(max)
-        val ignores = if (recsLessMax.isNotEmpty()) recsLessMax.joinToString(prefix = " skip ", transform = { it.source }) else ""
-        if (shouldAddIgnore) reason.append(", ignore ")
-        reason.append("recommend: ${max.version} via ${max.source}$ignores")
-
-        return reason.toString()
+    fun addLock(configuration: String, coordinate: String, version: String, source: String, plugin: String) {
+        reasons.add(Lock(configuration, coordinate, version, source))
     }
 
-    private fun groupNameToCoordinate(group: String, name: String): String = "$group:$name"
+    fun addForce(configuration: String, coordinate: String) {
+        reasons.add(Force(configuration, coordinate))
+    }
+
+    fun addReason(configuration: String, coordinate: String, message: String, plugin: String) {
+        reasons.add(DefaultReason(configuration, coordinate, message))
+    }
+
+    fun addPluginMessage(message: String) = pluginMessages.add(message)
+
+    fun getReason(configuration: String, coordinate: String): String {
+        val recs = reasons.filter { it.configuration == configuration && it.coordinate == coordinate }.reversed()
+        val reason = recs.joinToString(transform = Reason::getReason)
+
+        return reason
+    }
+
+    fun getGlobalMessages(): String = pluginMessages.joinToString(separator = System.lineSeparator())
 }

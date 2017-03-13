@@ -20,17 +20,6 @@ import nebula.test.dependencies.DependencyGraphBuilder
 import nebula.test.dependencies.GradleDependencyGenerator
 
 class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationTestKitSpec {
-    def "recommend versions of dependencies"() {
-        given:
-        setup1Dependency()
-
-        when:
-        def results = runTasks("dependencies", "--configuration", "compileClasspath")
-
-        then:
-        results.output.contains "test.nebula:foo: -> 1.0.0"
-    }
-
     def "recommend versions of dependencies are explained in dependencyInsightEnhanced"() {
         given:
         setup1Dependency()
@@ -39,10 +28,10 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationTestK
         def results = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
-        results.output.contains "test.nebula:foo:1.0.0 (recommend: 1.0.0 via NebulaTest)"
+        results.output.contains "test.nebula:foo:1.0.0 (recommend 1.0.0 via NebulaTest)"
     }
 
-    def "forces respected"() {
+    def "forces reported"() {
         given:
         setup1DependencyForce()
 
@@ -50,7 +39,7 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationTestK
         def results = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
-        results.output.contains "test.nebula:foo:1.0.0 (forced, ignore recommend: 2.0.0 via NebulaTest)"
+        results.output.contains "test.nebula:foo:1.0.0 (forced, recommend 2.0.0 via NebulaTest)"
     }
 
     def "multiproject sees recommendations"() {
@@ -61,19 +50,60 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationTestK
         def onefoo = runTasks(":one:dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
-        onefoo.output.contains "test.nebula:foo:1.0.0 (recommend: 1.0.0 via NebulaTest)"
+        onefoo.output.contains "test.nebula:foo:1.0.0 (recommend 1.0.0 via NebulaTest)"
 
         when:
         def twofoo = runTasks(":two:dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
-        twofoo.output.contains "test.nebula:foo:1.0.0 (recommend: 1.0.0 via NebulaTest)"
+        twofoo.output.contains "test.nebula:foo:1.0.0 (recommend 1.0.0 via NebulaTest)"
 
         when:
         def twobar = runTasks(":two:dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "bar")
 
         then:
-        twobar.output.contains "test.nebula:bar:2.0.0 (recommend: 2.0.0 via NebulaTest)"
+        twobar.output.contains "test.nebula:bar:2.0.0 (recommend 2.0.0 via NebulaTest)"
+    }
+
+    def "detect complete substitute foo to bar and give insight"() {
+        def graph = new DependencyGraphBuilder()
+                .addModule("test.nebula:foo:1.0.0")
+                .addModule("test.nebula:bar:2.0.0")
+                .build()
+        def generator = new GradleDependencyGenerator(graph)
+        generator.generateTestMavenRepo()
+        buildFile << """\
+            plugins {
+                id "nebula.dependency-base"
+                id "java"
+            }
+            
+            repositories {
+                ${generator.mavenRepositoryBlock}
+            }
+
+            configurations.all {
+                resolutionStrategy {
+                    eachDependency { details ->
+                        if (details.requested.group == "test.nebula" && details.requested.name == "foo") {
+                            details.useTarget "test.nebula:bar:2.0.0"
+                        }
+                    }
+                }
+            }
+
+            project.nebulaDependencyBase.addReason("compileClasspath", "test.nebula:bar", "possible replacement of test.nebula:foo", "test")
+
+            dependencies {
+                implementation "test.nebula:foo:1.0.0"
+            }
+            """.stripIndent()
+
+        when:
+        def results = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
+
+        then:
+        results.output.contains "test.nebula:bar:2.0.0 (possible replacement of test.nebula:foo)"
     }
 
     def setup1Dependency() {
@@ -90,8 +120,18 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationTestK
             repositories {
                 ${generator.mavenRepositoryBlock}
             }
+
+            configurations.all {
+                resolutionStrategy {
+                    eachDependency { details ->
+                        if (details.requested.group == "test.nebula" && details.requested.name == "foo") {
+                            details.useVersion "1.0.0"
+                        }
+                    }
+                }
+            }
             
-            project.nebulaDependencyBase.addRecommendation("test.nebula:foo", "1.0.0", "NebulaTest")
+            project.nebulaDependencyBase.addRecommendation("compileClasspath", "test.nebula:foo", "1.0.0", "NebulaTest", "test")
             
             dependencies {
                 implementation "test.nebula:foo"
@@ -117,7 +157,7 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationTestK
                 ${generator.mavenRepositoryBlock}
             }
             
-            project.nebulaDependencyBase.addRecommendation("test.nebula:foo", "2.0.0", "NebulaTest")
+            project.nebulaDependencyBase.addRecommendation("compileClasspath", "test.nebula:foo", "2.0.0", "NebulaTest", "test")
 
             configurations.all {
                 resolutionStrategy {
@@ -149,8 +189,21 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationTestK
                 apply plugin: "nebula.dependency-base"
                 apply plugin: "java"
                 
-                project.nebulaDependencyBase.addRecommendation("test.nebula:foo", "1.0.0", "NebulaTest")
-                project.nebulaDependencyBase.addRecommendation("test.nebula:bar", "2.0.0", "NebulaTest")
+                configurations.all {
+                    resolutionStrategy {
+                        eachDependency { details ->
+                            if (details.requested.group == "test.nebula" && details.requested.name == "foo") {
+                                details.useVersion "1.0.0"
+                            }
+                            if (details.requested.group == "test.nebula" && details.requested.name == "bar") {
+                                details.useVersion "2.0.0"
+                            }
+                        }
+                    }
+                }
+                
+                project.nebulaDependencyBase.addRecommendation("compileClasspath", "test.nebula:foo", "1.0.0", "NebulaTest", "test")
+                project.nebulaDependencyBase.addRecommendation("compileClasspath", "test.nebula:bar", "2.0.0", "NebulaTest", "test")
                 
                 repositories {
                     ${generator.mavenRepositoryBlock}

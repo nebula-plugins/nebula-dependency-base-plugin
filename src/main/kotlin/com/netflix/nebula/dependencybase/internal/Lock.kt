@@ -15,8 +15,8 @@
  */
 package com.netflix.nebula.dependencybase.internal
 
-data class Recommendation(override val configuration: String, override val coordinate: String, val version: String, val source: String): Reason {
+data class Lock(override val configuration: String, override val coordinate: String, val lockVersion: String, val source: String) : Reason {
     override fun getReason(): String {
-        return "recommend $version via $source"
+        return "locked to $lockVersion by $source"
     }
 }
