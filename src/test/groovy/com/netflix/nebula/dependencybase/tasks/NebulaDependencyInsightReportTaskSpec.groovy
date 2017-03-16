@@ -15,12 +15,11 @@
  */
 package com.netflix.nebula.dependencybase.tasks
 
-import nebula.test.IntegrationTestKitSpec
+import nebula.test.IntegrationSpec
 import nebula.test.dependencies.DependencyGraphBuilder
 import nebula.test.dependencies.GradleDependencyGenerator
-import org.gradle.testkit.runner.BuildResult
 
-class NebulaDependencyInsightReportTaskSpec extends IntegrationTestKitSpec {
+class NebulaDependencyInsightReportTaskSpec extends IntegrationSpec {
     def "generate a dependencyInsight report with more than just chosen by rule"() {
         def graph = new DependencyGraphBuilder().addModule("test.nebula:foo:1.0.0")
                 .addModule("test.nebula:foo:1.1.0")
@@ -32,8 +31,8 @@ class NebulaDependencyInsightReportTaskSpec extends IntegrationTestKitSpec {
         buildFile << """\
             plugins {
                 id "java"
-                id "nebula.dependency-base"
             }
+            apply plugin: 'nebula.dependency-base'
             
             repositories {
                 ${generator.mavenRepositoryBlock}
@@ -46,15 +45,15 @@ class NebulaDependencyInsightReportTaskSpec extends IntegrationTestKitSpec {
             }
             
             dependencies {
-                implementation "test.nebula:foo:1.+"
+                compile "test.nebula:foo:1.+"
             }
             """.stripIndent()
 
         when:
-        BuildResult result = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
+        def result = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
-        result.output.contains "test.nebula:foo:1.0.0 (forced)"
+        result.standardOutput.contains "test.nebula:foo:1.0.0 (forced)"
     }
 
     def "display global info message"() {
@@ -68,8 +67,8 @@ class NebulaDependencyInsightReportTaskSpec extends IntegrationTestKitSpec {
         buildFile << """\
             plugins {
                 id "java"
-                id "nebula.dependency-base"
             }
+            apply plugin: 'nebula.dependency-base'
             
             repositories {
                 ${generator.mavenRepositoryBlock}
@@ -79,14 +78,14 @@ class NebulaDependencyInsightReportTaskSpec extends IntegrationTestKitSpec {
             project.nebulaDependencyBase.addPluginMessage("and another")
             
             dependencies {
-                implementation "test.nebula:foo:1.+"
+                compile "test.nebula:foo:1.+"
             }
             """.stripIndent()
 
         when:
-        BuildResult result = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
+        def result = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
-        result.output.contains "test plugin message${System.lineSeparator()}and another"
+        result.standardOutput.contains "test plugin message${System.lineSeparator()}and another"
     }
 }

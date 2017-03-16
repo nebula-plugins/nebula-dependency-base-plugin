@@ -30,8 +30,14 @@ contacts {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force "com.netflix.nebula:nebula-test:4.4.2"
+    }
+}
+
 dependencies {
-    testCompile "com.netflix.nebula:nebula-test:5.+"
+    testCompile "com.netflix.nebula:nebula-test:4.4.2"
 }
 
 description = "A base plugin to improve dependency insight and handle all dependency applies"
