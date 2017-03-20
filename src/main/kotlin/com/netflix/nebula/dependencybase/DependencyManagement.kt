@@ -40,7 +40,7 @@ class DependencyManagement {
     fun addPluginMessage(message: String) = pluginMessages.add(message)
 
     fun getReason(configuration: String, coordinate: String): String {
-        val recs = reasons.filter { it.configuration == configuration && it.coordinate == coordinate }.reversed()
+        val recs = reasons.filter { it.configuration == configuration && it.coordinate == coordinate }.distinct().reversed()
         val reason = recs.joinToString(transform = Reason::getReason)
 
         return reason

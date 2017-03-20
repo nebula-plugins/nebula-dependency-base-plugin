@@ -39,6 +39,20 @@ class DependencyManagementSpec extends Specification {
         management.getReason("compile", coordinate) == "recommend 1.0.0 via TestRecommender"
     }
 
+    def "only display same reason once"() {
+        given:
+        def management = new DependencyManagement()
+        final coordinate = "test.nebula:foo"
+
+        when:
+        management.addRecommendation("compile", coordinate, "1.0.0", "TestRecommender", "test")
+        management.addRecommendation("compile", coordinate, "1.0.0", "TestRecommender", "test")
+
+        then:
+        management.reasons.size() == 2
+        management.getReason("compile", coordinate) == "recommend 1.0.0 via TestRecommender"
+    }
+
     def "handle non semver versions"() {
         given:
         def management = new DependencyManagement()
