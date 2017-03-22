@@ -28,8 +28,6 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec 
         def results = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
-        println results?.standardError
-        println results?.standardOutput
         results.standardOutput.contains "test.nebula:foo:1.0.0 (recommend 1.0.0 via NebulaTest)"
     }
 
@@ -68,6 +66,7 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec 
     }
 
     def "detect complete substitute foo to bar and give insight"() {
+        given:
         def graph = new DependencyGraphBuilder()
                 .addModule("test.nebula:foo:1.0.0")
                 .addModule("test.nebula:bar:2.0.0")
@@ -109,6 +108,25 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec 
         results.standardOutput.contains "test.nebula:bar:2.0.0 (possible replacement of test.nebula:foo)"
     }
 
+    def "only collect dependency insight if dependencyInsightEnhanced is on task graph"() {
+        given:
+        setup1Dependency()
+
+        buildFile << """\
+            task messageCount {
+                doLast {
+                    println "Message count: \${project.nebulaDependencyBase.reasons.size()}"
+                }
+            }
+            """.stripIndent()
+
+        when:
+        def results = runTasks("dependencies", "--configuration", "compileClasspath", "messageCount")
+
+        then:
+        results.standardOutput.contains "Message count: 0"
+    }
+
     def setup1Dependency() {
         def graph = new DependencyGraphBuilder().addModule("test.nebula:foo:1.0.0").build()
         def generator = new GradleDependencyGenerator(graph)
@@ -134,9 +152,9 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec 
                     }
                 }
             }
-            
+
             project.nebulaDependencyBase.addRecommendation("compileClasspath", "test.nebula:foo", "1.0.0", "NebulaTest", "test")
-            
+
             dependencies {
                 compile "test.nebula:foo"
             }
@@ -156,11 +174,11 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec 
                 id "java"
             }
             apply plugin: "nebula.dependency-base"
-            
+
             repositories {
                 ${generator.mavenRepositoryBlock}
             }
-            
+
             project.nebulaDependencyBase.addRecommendation("compileClasspath", "test.nebula:foo", "2.0.0", "NebulaTest", "test")
 
             configurations.all {
@@ -168,7 +186,7 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec 
                     force "test.nebula:foo:1.0.0"
                 }
             }
-            
+
             dependencies {
                 compile "test.nebula:foo"
             }
@@ -202,10 +220,10 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec 
                         }
                     }
                 }
-                
+
                 project.nebulaDependencyBase.addRecommendation("compileClasspath", "test.nebula:foo", "1.0.0", "NebulaTest", "test")
                 project.nebulaDependencyBase.addRecommendation("compileClasspath", "test.nebula:bar", "2.0.0", "NebulaTest", "test")
-                
+
                 repositories {
                     ${generator.mavenRepositoryBlock}
                 }

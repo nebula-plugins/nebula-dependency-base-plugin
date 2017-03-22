@@ -20,24 +20,27 @@ import com.netflix.nebula.dependencybase.internal.*
 class DependencyManagement {
     val reasons: MutableList<Reason> = mutableListOf()
     val pluginMessages: MutableSet<String> = mutableSetOf()
+    private var shouldStoreReason: Boolean = true
 
     fun addRecommendation(configuration: String, coordinate: String, version: String, source: String, plugin: String) {
-        reasons.add(Recommendation(configuration, coordinate, version, source))
+        if (shouldStoreReason) reasons.add(Recommendation(configuration, coordinate, version, source))
     }
 
     fun addLock(configuration: String, coordinate: String, version: String, source: String, plugin: String) {
-        reasons.add(Lock(configuration, coordinate, version, source))
+        if (shouldStoreReason) reasons.add(Lock(configuration, coordinate, version, source))
     }
 
     fun addForce(configuration: String, coordinate: String) {
-        reasons.add(Force(configuration, coordinate))
+        if (shouldStoreReason) reasons.add(Force(configuration, coordinate))
     }
 
     fun addReason(configuration: String, coordinate: String, message: String, plugin: String) {
-        reasons.add(DefaultReason(configuration, coordinate, message))
+        if (shouldStoreReason) reasons.add(DefaultReason(configuration, coordinate, message))
     }
 
-    fun addPluginMessage(message: String) = pluginMessages.add(message)
+    fun addPluginMessage(message: String) {
+        if (shouldStoreReason) pluginMessages.add(message)
+    }
 
     fun getReason(configuration: String, coordinate: String): String {
         val recs = reasons.filter { it.configuration == configuration && it.coordinate == coordinate }.distinct().reversed()
@@ -47,4 +50,14 @@ class DependencyManagement {
     }
 
     fun getGlobalMessages(): String = pluginMessages.joinToString(separator = System.lineSeparator())
+
+    fun disableMessageStore() {
+        shouldStoreReason = false
+        reasons.clear()
+        pluginMessages.clear()
+    }
+
+    fun enableMessageStore() {
+        shouldStoreReason = true
+    }
 }
