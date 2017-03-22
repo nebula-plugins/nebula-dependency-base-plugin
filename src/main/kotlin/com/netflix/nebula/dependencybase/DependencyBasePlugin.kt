@@ -16,17 +16,25 @@
 package com.netflix.nebula.dependencybase
 
 import com.netflix.nebula.dependencybase.tasks.NebulaDependencyInsightReportTask
+import groovy.lang.Closure
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
+import org.gradle.api.execution.TaskExecutionGraph
 
-class DependencyBasePlugin : Plugin<Project> {
-    private val dependencyManagement : DependencyManagement = DependencyManagement()
+class DependencyBasePlugin: Plugin<Project> {
+    val dependencyManagement: DependencyManagement = DependencyManagement()
+    lateinit var insightTask: NebulaDependencyInsightReportTask
 
     override fun apply(project: Project) {
         initializeDependencyBase(project)
         enableForceCollection(project)
         setupDependencyInsightEnhanced(project)
+        project.gradle.taskGraph.whenReady( groovyClosure { taskGraph : TaskExecutionGraph ->
+                if (!taskGraph.hasTask(insightTask)) {
+                    dependencyManagement.disableMessageStore()
+                }
+            })
     }
 
     private fun initializeDependencyBase(project: Project) {
@@ -45,7 +53,14 @@ class DependencyBasePlugin : Plugin<Project> {
     }
 
     private fun setupDependencyInsightEnhanced(project: Project) {
-        val depInsightEnhancedTask = project.tasks.create("dependencyInsightEnhanced", NebulaDependencyInsightReportTask::class.java)
-        depInsightEnhancedTask.reasonLookup = dependencyManagement
+        insightTask = project.tasks.create("dependencyInsightEnhanced", NebulaDependencyInsightReportTask::class.java)
+        insightTask.reasonLookup = dependencyManagement
+    }
+}
+
+inline fun <S,T> S.groovyClosure(crossinline call: (a: T) -> Unit) = object : Closure<Unit>(this) {
+    @Suppress("unused")
+    fun doCall(a: T) {
+        call(a)
     }
 }
