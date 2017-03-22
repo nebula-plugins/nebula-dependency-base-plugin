@@ -79,4 +79,15 @@ class DependencyManagementSpec extends Specification {
         then:
         management.getReason("compile", coordinate) == "recommend 1.2.0 via OtherRecommender, forced"
     }
+
+    def "plugin messages are stored"() {
+        given:
+        def management = new DependencyManagement()
+
+        when:
+        management.addPluginMessage("message 1")
+
+        then:
+        management.pluginMessages.size() == 1
+    }
 }

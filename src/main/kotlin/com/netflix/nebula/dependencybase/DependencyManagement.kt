@@ -38,9 +38,7 @@ class DependencyManagement {
         if (shouldStoreReason) reasons.add(DefaultReason(configuration, coordinate, message))
     }
 
-    fun addPluginMessage(message: String) {
-        if (shouldStoreReason) pluginMessages.add(message)
-    }
+    fun addPluginMessage(message: String) = if (shouldStoreReason) pluginMessages.add(message) else false
 
     fun getReason(configuration: String, coordinate: String): String {
         val recs = reasons.filter { it.configuration == configuration && it.coordinate == coordinate }.distinct().reversed()
