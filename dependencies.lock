@@ -1,0 +1,140 @@
+{
+    "compile": {
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "compileClasspath": {
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "compileOnly": {
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "default": {
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "integTestCompile": {
+        "com.netflix.nebula:nebula-test": {
+            "locked": "4.4.2",
+            "requested": "4.4.2"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "integTestCompileClasspath": {
+        "com.netflix.nebula:nebula-test": {
+            "locked": "4.4.2",
+            "requested": "4.4.2"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "integTestCompileOnly": {
+        "com.netflix.nebula:nebula-test": {
+            "locked": "4.4.2",
+            "requested": "4.4.2"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "integTestRuntime": {
+        "com.netflix.nebula:nebula-test": {
+            "locked": "4.4.2",
+            "requested": "4.4.2"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "jacocoAgent": {
+        "org.jacoco:org.jacoco.agent": {
+            "locked": "0.7.6.201602180812"
+        }
+    },
+    "jacocoAnt": {
+        "org.jacoco:org.jacoco.ant": {
+            "locked": "0.7.6.201602180812"
+        }
+    },
+    "kapt": {
+        "org.jetbrains.kotlin:kotlin-annotation-processing": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "kaptIntegTest": {
+        "org.jetbrains.kotlin:kotlin-annotation-processing": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "kaptTest": {
+        "org.jetbrains.kotlin:kotlin-annotation-processing": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "runtime": {
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "testCompile": {
+        "com.netflix.nebula:nebula-test": {
+            "locked": "4.4.2",
+            "requested": "4.4.2"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "testCompileClasspath": {
+        "com.netflix.nebula:nebula-test": {
+            "locked": "4.4.2",
+            "requested": "4.4.2"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "testCompileOnly": {
+        "com.netflix.nebula:nebula-test": {
+            "locked": "4.4.2",
+            "requested": "4.4.2"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    },
+    "testRuntime": {
+        "com.netflix.nebula:nebula-test": {
+            "locked": "4.4.2",
+            "requested": "4.4.2"
+        },
+        "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
+            "locked": "1.1.0",
+            "requested": "1.1.0"
+        }
+    }
+}
