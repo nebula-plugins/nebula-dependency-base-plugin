@@ -20,12 +20,12 @@ import nebula.test.dependencies.DependencyGraphBuilder
 import nebula.test.dependencies.GradleDependencyGenerator
 
 class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec {
-    def "recommend versions of dependencies are explained in dependencyInsightEnhanced"() {
+    def "recommend versions of dependencies are explained in dependencyInsight"() {
         given:
         setup1Dependency()
 
         when:
-        def results = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
+        def results = runTasks("dependencyInsight", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
         results.standardOutput.contains "test.nebula:foo:1.0.0 (recommend 1.0.0 via NebulaTest)"
@@ -36,7 +36,7 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec 
         setup1DependencyForce()
 
         when:
-        def results = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
+        def results = runTasks("dependencyInsight", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
         results.standardOutput.contains "test.nebula:foo:1.0.0 (forced, recommend 2.0.0 via NebulaTest)"
@@ -47,19 +47,19 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec 
         setupMultiproject()
 
         when:
-        def onefoo = runTasks(":one:dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
+        def onefoo = runTasks(":one:dependencyInsight", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
         onefoo.standardOutput.contains "test.nebula:foo:1.0.0 (recommend 1.0.0 via NebulaTest)"
 
         when:
-        def twofoo = runTasks(":two:dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
+        def twofoo = runTasks(":two:dependencyInsight", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
         twofoo.standardOutput.contains "test.nebula:foo:1.0.0 (recommend 1.0.0 via NebulaTest)"
 
         when:
-        def twobar = runTasks(":two:dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "bar")
+        def twobar = runTasks(":two:dependencyInsight", "--configuration", "compileClasspath", "--dependency", "bar")
 
         then:
         twobar.standardOutput.contains "test.nebula:bar:2.0.0 (recommend 2.0.0 via NebulaTest)"
@@ -102,13 +102,13 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec 
             """.stripIndent()
 
         when:
-        def results = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
+        def results = runTasks("dependencyInsight", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
         results.standardOutput.contains "test.nebula:bar:2.0.0 (possible replacement of test.nebula:foo)"
     }
 
-    def "only collect dependency insight if dependencyInsightEnhanced is on task graph"() {
+    def "only collect dependency insight if dependencyInsight is on task graph"() {
         given:
         setup1Dependency()
 

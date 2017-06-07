@@ -50,7 +50,7 @@ class NebulaDependencyInsightReportTaskSpec extends IntegrationSpec {
             """.stripIndent()
 
         when:
-        def result = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
+        def result = runTasks("dependencyInsight", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
         result.standardOutput.contains "test.nebula:foo:1.0.0 (forced)"
@@ -83,7 +83,7 @@ class NebulaDependencyInsightReportTaskSpec extends IntegrationSpec {
             """.stripIndent()
 
         when:
-        def result = runTasks("dependencyInsightEnhanced", "--configuration", "compileClasspath", "--dependency", "foo")
+        def result = runTasks("dependencyInsight", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
         result.standardOutput.contains "test plugin message${System.lineSeparator()}and another"

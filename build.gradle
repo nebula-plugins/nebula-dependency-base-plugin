@@ -22,10 +22,6 @@ plugins {
 
 description = 'A base plugin to improve dependency insight and handle all dependency applies'
 
-dependencies {
-    compile 'com.netflix.nebula:nebula-gradle-interop:0.5.0'
-}
-
 contacts {
     "rob.spieldenner@gmail.com" {
         moniker "Rob Spieldenner"
