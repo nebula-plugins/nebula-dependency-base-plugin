@@ -15,13 +15,16 @@
  *
  */
 plugins {
-    id "com.gradle.plugin-publish" version "0.9.7"
-    id "nebula.plugin-plugin" version "5.7.0"
-    id "java-gradle-plugin"
-    id "nebula.kotlin" version "1.1.0"
+    id 'nebula.plugin-plugin' version '5.15.6'
+    id 'java-gradle-plugin'
+    id 'nebula.kotlin' version '1.1.0'
 }
 
-apply plugin: "kotlin"
+description = 'A base plugin to improve dependency insight and handle all dependency applies'
+
+dependencies {
+    compile 'com.netflix.nebula:nebula-gradle-interop:0.5.0'
+}
 
 contacts {
     "rob.spieldenner@gmail.com" {
@@ -29,18 +32,6 @@ contacts {
         github "rspieldenner"
     }
 }
-
-configurations.all {
-    resolutionStrategy {
-        force "com.netflix.nebula:nebula-test:4.4.2"
-    }
-}
-
-dependencies {
-    testCompile "com.netflix.nebula:nebula-test:4.4.2"
-}
-
-description = "A base plugin to improve dependency insight and handle all dependency applies"
 
 pluginBundle {
     plugins {
