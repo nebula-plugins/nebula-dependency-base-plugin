@@ -1,41 +1,25 @@
 {
     "compile": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
             "locked": "1.1.0",
             "requested": "1.1.0"
         }
     },
     "compileClasspath": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
             "locked": "1.1.0",
             "requested": "1.1.0"
         }
     },
     "default": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
             "locked": "1.1.0",
             "requested": "1.1.0"
         }
     },
     "integTestCompile": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.0.1",
+            "locked": "6.1.0",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -44,12 +28,8 @@
         }
     },
     "integTestCompileClasspath": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.0.1",
+            "locked": "6.1.0",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -58,12 +38,8 @@
         }
     },
     "integTestRuntime": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.0.1",
+            "locked": "6.1.0",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -72,12 +48,8 @@
         }
     },
     "integTestRuntimeClasspath": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.0.1",
+            "locked": "6.1.0",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -114,32 +86,20 @@
         }
     },
     "runtime": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
             "locked": "1.1.0",
             "requested": "1.1.0"
         }
     },
     "runtimeClasspath": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
             "locked": "1.1.0",
             "requested": "1.1.0"
         }
     },
     "testCompile": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.0.1",
+            "locked": "6.1.0",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -148,12 +108,8 @@
         }
     },
     "testCompileClasspath": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.0.1",
+            "locked": "6.1.0",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -162,12 +118,8 @@
         }
     },
     "testRuntime": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.0.1",
+            "locked": "6.1.0",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -176,12 +128,8 @@
         }
     },
     "testRuntimeClasspath": {
-        "com.netflix.nebula:nebula-gradle-interop": {
-            "locked": "0.5.0",
-            "requested": "0.5.0"
-        },
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.0.1",
+            "locked": "6.1.0",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
