@@ -19,6 +19,8 @@ import com.netflix.nebula.dependencybase.DependencyManagement
 import org.gradle.api.InvalidUserDataException
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier
 import org.gradle.api.artifacts.result.DependencyResult
+import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.strategy.VersionComparator
+import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.strategy.VersionSelectorScheme
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.diagnostics.DependencyInsightReportTask
 import org.gradle.api.tasks.diagnostics.internal.graph.DependencyGraphRenderer
@@ -69,7 +71,12 @@ open class NebulaDependencyInsightReportTask : DependencyInsightReportTask() {
             return
         }
 
-        val sortedDeps = DependencyInsightReporter().prepare(selectedDependencies, versionSelectorScheme, versionComparator)
+        val reporter = DependencyInsightReporter()
+        val sortedDeps = try {
+            reporter.prepare(selectedDependencies, versionSelectorScheme, versionComparator, versionParser)
+        } catch (e: NoSuchMethodError) {
+            reporter.legacyPrepare(selectedDependencies, versionSelectorScheme, versionComparator)
+        }
 
         val nodeRenderer = NodeRenderer { target, node, alreadyRendered ->
             val leaf = node.children.isEmpty()
@@ -126,5 +133,10 @@ open class NebulaDependencyInsightReportTask : DependencyInsightReportTask() {
             is ModuleComponentIdentifier -> return "${id.group}:${id.module}"
         }
         return ""
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun DependencyInsightReporter.legacyPrepare(input: Collection<DependencyResult>, versionSelectorScheme: VersionSelectorScheme, versionComparator: VersionComparator): Collection<RenderableDependency> {
+        return javaClass.getDeclaredMethod("prepare").invoke(input, versionSelectorScheme, versionComparator) as Collection<RenderableDependency>
     }
 }
