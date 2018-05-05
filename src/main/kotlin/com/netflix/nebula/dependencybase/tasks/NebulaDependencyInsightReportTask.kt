@@ -137,6 +137,7 @@ open class NebulaDependencyInsightReportTask : DependencyInsightReportTask() {
 
     @Suppress("UNCHECKED_CAST")
     private fun DependencyInsightReporter.legacyPrepare(input: Collection<DependencyResult>, versionSelectorScheme: VersionSelectorScheme, versionComparator: VersionComparator): Collection<RenderableDependency> {
-        return javaClass.getDeclaredMethod("prepare").invoke(input, versionSelectorScheme, versionComparator) as Collection<RenderableDependency>
+        return javaClass.getMethod("prepare", Collection::class.java, VersionSelectorScheme::class.java, VersionComparator::class.java)
+                .invoke(this, input, versionSelectorScheme, versionComparator) as Collection<RenderableDependency>
     }
 }
