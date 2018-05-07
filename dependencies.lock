@@ -19,7 +19,7 @@
     },
     "integTestCompile": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.4.3",
+            "locked": "6.4.5",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -29,7 +29,7 @@
     },
     "integTestCompileClasspath": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.4.3",
+            "locked": "6.4.5",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -39,7 +39,7 @@
     },
     "integTestRuntime": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.4.3",
+            "locked": "6.4.5",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -49,7 +49,7 @@
     },
     "integTestRuntimeClasspath": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.4.3",
+            "locked": "6.4.5",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -99,7 +99,7 @@
     },
     "testCompile": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.4.3",
+            "locked": "6.4.5",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -109,7 +109,7 @@
     },
     "testCompileClasspath": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.4.3",
+            "locked": "6.4.5",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -119,7 +119,7 @@
     },
     "testRuntime": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.4.3",
+            "locked": "6.4.5",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {
@@ -129,7 +129,7 @@
     },
     "testRuntimeClasspath": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "6.4.3",
+            "locked": "6.4.5",
             "requested": "6.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre7": {

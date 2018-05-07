@@ -47,19 +47,19 @@ class RecommendationDependencyBasePluginIntegrationSpec extends IntegrationSpec 
         setupMultiproject()
 
         when:
-        def onefoo = runTasks(":one:dependencyInsight", "--configuration", "compileClasspath", "--dependency", "foo", '--warning-mode=none')
+        def onefoo = runTasks(":one:dependencyInsight", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
         onefoo.standardOutput.contains "test.nebula:foo:1.0.0 (recommend 1.0.0 via NebulaTest)"
 
         when:
-        def twofoo = runTasks(":two:dependencyInsight", "--configuration", "compileClasspath", "--dependency", "foo", '--warning-mode=none')
+        def twofoo = runTasks(":two:dependencyInsight", "--configuration", "compileClasspath", "--dependency", "foo")
 
         then:
         twofoo.standardOutput.contains "test.nebula:foo:1.0.0 (recommend 1.0.0 via NebulaTest)"
 
         when:
-        def twobar = runTasks(":two:dependencyInsight", "--configuration", "compileClasspath", "--dependency", "bar", '--warning-mode=none')
+        def twobar = runTasks(":two:dependencyInsight", "--configuration", "compileClasspath", "--dependency", "bar")
 
         then:
         twobar.standardOutput.contains "test.nebula:bar:2.0.0 (recommend 2.0.0 via NebulaTest)"
