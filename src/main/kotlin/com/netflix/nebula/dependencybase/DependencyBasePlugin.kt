@@ -53,8 +53,15 @@ class DependencyBasePlugin: Plugin<Project> {
     }
 
     private fun setupDependencyInsightEnhanced(project: Project) {
-        insightTask = project.tasks.replace("dependencyInsight", NebulaDependencyInsightReportTask::class.java)
+        insightTask = project.tasks.create("dependencyInsightEnhanced", NebulaDependencyInsightReportTask::class.java)
         insightTask.reasonLookup = dependencyManagement
+        project.afterEvaluate {
+            it.tasks.findByName("dependencyInsight").apply {
+                if (this == null) return@afterEvaluate
+                dependsOn(insightTask)
+                enabled = false
+            }
+        }
     }
 }
 
