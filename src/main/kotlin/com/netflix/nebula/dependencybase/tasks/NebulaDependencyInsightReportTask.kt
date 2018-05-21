@@ -21,6 +21,7 @@ import org.gradle.api.artifacts.component.ModuleComponentIdentifier
 import org.gradle.api.artifacts.result.DependencyResult
 import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.strategy.VersionComparator
 import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.strategy.VersionSelectorScheme
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.diagnostics.DependencyInsightReportTask
 import org.gradle.api.tasks.diagnostics.internal.graph.DependencyGraphRenderer
@@ -38,6 +39,7 @@ import org.gradle.internal.logging.text.StyledTextOutput.Style.*
  * reasons.
  */
 open class NebulaDependencyInsightReportTask : DependencyInsightReportTask() {
+    @Internal
     lateinit var reasonLookup: DependencyManagement
 
     /**
@@ -45,14 +47,14 @@ open class NebulaDependencyInsightReportTask : DependencyInsightReportTask() {
      */
     @TaskAction
     override fun report() {
-        val configuration = configuration ?: throw InvalidUserDataException("Dependency insight report cannot be generated because the input configuration was not specified. "
-                + "\nIt can be specified from the command line, e.g: '" + path + " --configuration someConf --dependency someDep'")
+        val reportTasks = project.tasks.withType(DependencyInsightReportTask::class.java)
+        val configuration = reportTasks.mapNotNull { it.configuration }.singleOrNull()
+                ?: throw InvalidUserDataException("Dependency insight report cannot be generated because the input configuration was not specified. "
+                        + "\nIt can be specified from the command line, e.g: '" + path + " --configuration someConf --dependency someDep'")
 
-        if (dependencySpec == null) {
-            throw InvalidUserDataException("Dependency insight report cannot be generated because the dependency to show was not specified."
-                    + "\nIt can be specified from the command line, e.g: '" + path + " --dependency someDep'")
-        }
-
+        val dependencySpec = reportTasks.mapNotNull { it.dependencySpec }.singleOrNull()
+                ?: throw InvalidUserDataException("Dependency insight report cannot be generated because the dependency to show was not specified."
+                        + "\nIt can be specified from the command line, e.g: '" + path + " --dependency someDep'")
 
         val output = textOutputFactory.create(javaClass)
         val renderer = GraphRenderer(output)
