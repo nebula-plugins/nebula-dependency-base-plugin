@@ -22,6 +22,8 @@ class DependencyManagement {
     val pluginMessages: MutableSet<String> = mutableSetOf()
     private var shouldStoreReason: Boolean = true
 
+    // Leaving these methods in place for backwards compatibility for projects calling them
+
     fun addRecommendation(configuration: String, coordinate: String, version: String, source: String, plugin: String) {
         if (shouldStoreReason) reasons.add(Recommendation(configuration, coordinate, version, source))
     }
