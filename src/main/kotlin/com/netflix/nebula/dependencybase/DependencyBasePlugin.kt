@@ -15,59 +15,16 @@
  */
 package com.netflix.nebula.dependencybase
 
-import com.netflix.nebula.dependencybase.tasks.NebulaDependencyInsightReportTask
-import groovy.lang.Closure
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.Configuration
-import org.gradle.api.execution.TaskExecutionGraph
 
 class DependencyBasePlugin: Plugin<Project> {
     val dependencyManagement: DependencyManagement = DependencyManagement()
-    lateinit var insightTask: NebulaDependencyInsightReportTask
 
     override fun apply(project: Project) {
-        initializeDependencyBase(project)
-        enableForceCollection(project)
-        setupDependencyInsightEnhanced(project)
-        project.gradle.taskGraph.whenReady( groovyClosure { taskGraph : TaskExecutionGraph ->
-                if (!taskGraph.hasTask(insightTask)) {
-                    dependencyManagement.disableMessageStore()
-                }
-            })
-    }
-
-    private fun initializeDependencyBase(project: Project) {
+        // We are leaving this around for backwards compatibility of people using this plugin
         project.extensions.extraProperties.set("nebulaDependencyBase", dependencyManagement)
+        dependencyManagement.disableMessageStore()
     }
 
-    private fun enableForceCollection(project: Project) {
-        project.configurations.all { conf ->
-            if (conf.state == Configuration.State.UNRESOLVED) {
-                conf.incoming.beforeResolve {
-                    val forced = conf.resolutionStrategy.forcedModules
-                    forced.forEach { force -> dependencyManagement.addForce(conf.name, "${force.group}:${force.name}") }
-                }
-            }
-        }
-    }
-
-    private fun setupDependencyInsightEnhanced(project: Project) {
-        insightTask = project.tasks.create("dependencyInsightEnhanced", NebulaDependencyInsightReportTask::class.java)
-        insightTask.reasonLookup = dependencyManagement
-        project.afterEvaluate {
-            it.tasks.findByName("dependencyInsight").apply {
-                if (this == null) return@afterEvaluate
-                dependsOn(insightTask)
-                enabled = false
-            }
-        }
-    }
-}
-
-inline fun <S,T> S.groovyClosure(crossinline call: (a: T) -> Unit) = object : Closure<Unit>(this) {
-    @Suppress("unused")
-    fun doCall(a: T) {
-        call(a)
-    }
 }
