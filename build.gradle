@@ -15,9 +15,9 @@
  *
  */
 plugins {
-    id 'nebula.plugin-plugin' version '8.1.0'
+    id 'nebula.plugin-plugin' version '8.1.2'
     id 'java-gradle-plugin'
-    id 'nebula.kotlin' version '1.2.61'
+    id 'nebula.kotlin' version '1.2.70-3'
 }
 
 description = 'A base plugin to improve dependency insight and handle all dependency applies'
