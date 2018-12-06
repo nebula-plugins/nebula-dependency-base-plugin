@@ -17,4 +17,3 @@ include 'services:webservice'
 */
 
 rootProject.name = 'nebula-dependency-base-plugin'
-enableFeaturePreview("STABLE_PUBLISHING")
