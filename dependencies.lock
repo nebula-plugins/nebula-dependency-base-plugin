@@ -25,7 +25,7 @@
     },
     "integTestCompile": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.0",
+            "locked": "7.1.4",
             "requested": "7.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
@@ -35,7 +35,7 @@
     },
     "integTestCompileClasspath": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.0",
+            "locked": "7.1.4",
             "requested": "7.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
@@ -45,7 +45,7 @@
     },
     "integTestRuntime": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.0",
+            "locked": "7.1.4",
             "requested": "7.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
@@ -55,7 +55,7 @@
     },
     "integTestRuntimeClasspath": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.0",
+            "locked": "7.1.4",
             "requested": "7.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
@@ -65,12 +65,12 @@
     },
     "jacocoAgent": {
         "org.jacoco:org.jacoco.agent": {
-            "locked": "0.8.1"
+            "locked": "0.8.2"
         }
     },
     "jacocoAnt": {
         "org.jacoco:org.jacoco.ant": {
-            "locked": "0.8.1"
+            "locked": "0.8.2"
         }
     },
     "kotlinCompilerClasspath": {
@@ -98,7 +98,7 @@
     },
     "testCompile": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.0",
+            "locked": "7.1.4",
             "requested": "7.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
@@ -108,7 +108,7 @@
     },
     "testCompileClasspath": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.0",
+            "locked": "7.1.4",
             "requested": "7.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
@@ -118,7 +118,7 @@
     },
     "testRuntime": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.0",
+            "locked": "7.1.4",
             "requested": "7.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
@@ -128,7 +128,7 @@
     },
     "testRuntimeClasspath": {
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.0",
+            "locked": "7.1.4",
             "requested": "7.+"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
