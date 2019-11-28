@@ -17,7 +17,7 @@
 plugins {
     id 'nebula.plugin-plugin' version '13.2.0'
     id 'java-gradle-plugin'
-    id 'nebula.kotlin' version '1.3.50'
+    id 'nebula.kotlin' version '1.3.61'
 }
 
 description = 'A base plugin to improve dependency insight and handle all dependency applies'
