@@ -17,7 +17,7 @@
 plugins {
     id 'nebula.plugin-plugin' version '14.6.0'
     id 'java-gradle-plugin'
-    id 'nebula.kotlin' version '1.3.70'
+    id "org.jetbrains.kotlin.jvm" version "1.4.21"
 }
 
 description = 'A base plugin to improve dependency insight and handle all dependency applies'
@@ -41,5 +41,11 @@ pluginBundle {
             description = project.description
             tags = ["nebula", "dependency", "dependencies", "dependency-insight"]
         }
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
