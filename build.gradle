@@ -36,7 +36,7 @@ pluginBundle {
 gradlePlugin {
     plugins {
         nebulaDependencyBase {
-            id = "nebula.dependency-base"
+            id = "com.netflix.nebula.dependency-base"
             displayName = "Nebula Dependency Base"
             description = project.description
             implementationClass = 'com.netflix.nebula.dependencybase.DependencyBasePlugin'
