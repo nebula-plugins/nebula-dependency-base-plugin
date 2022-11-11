@@ -15,7 +15,7 @@
  *
  */
 plugins {
-    id 'com.netflix.nebula.plugin-plugin' version '19.0.2'
+    id 'com.netflix.nebula.plugin-plugin' version '20.0.0'
     id 'java-gradle-plugin'
     id "org.jetbrains.kotlin.jvm" version "1.6.21"
 }
@@ -29,10 +29,6 @@ contacts {
     }
 }
 
-pluginBundle {
-    tags = ["nebula", "dependency", "dependencies", "dependency-insight"]
-}
-
 gradlePlugin {
     plugins {
         nebulaDependencyBase {
@@ -40,6 +36,7 @@ gradlePlugin {
             displayName = "Nebula Dependency Base"
             description = project.description
             implementationClass = 'com.netflix.nebula.dependencybase.DependencyBasePlugin'
+            tags.set(["nebula", "dependency", "dependencies", "dependency-insight"])
         }
     }
 }
