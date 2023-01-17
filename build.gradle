@@ -15,7 +15,7 @@
  *
  */
 plugins {
-    id 'com.netflix.nebula.plugin-plugin' version '20.3.0'
+    id 'com.netflix.nebula.plugin-plugin' version '20.4.0'
     id 'java-gradle-plugin'
     id "org.jetbrains.kotlin.jvm" version "1.8.0"
 }
@@ -39,11 +39,6 @@ gradlePlugin {
             tags.set(["nebula", "dependency", "dependencies", "dependency-insight"])
         }
     }
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
