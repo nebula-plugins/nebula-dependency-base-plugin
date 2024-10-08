@@ -17,7 +17,7 @@
 plugins {
     id 'com.netflix.nebula.plugin-plugin' version '21.2.0'
     id 'java-gradle-plugin'
-    id "org.jetbrains.kotlin.jvm" version "1.8.0"
+    id "org.jetbrains.kotlin.jvm" version "2.0.20"
 }
 
 description = 'A base plugin to improve dependency insight and handle all dependency applies'
