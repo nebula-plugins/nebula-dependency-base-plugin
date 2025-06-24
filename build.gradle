@@ -15,9 +15,9 @@
  *
  */
 plugins {
-    id 'com.netflix.nebula.plugin-plugin' version '21.2.2'
+    id 'com.netflix.nebula.plugin-plugin' version '22.0.2'
     id 'java-gradle-plugin'
-    id "org.jetbrains.kotlin.jvm" version "2.0.20"
+    id "org.jetbrains.kotlin.jvm" version "2.2.0"
 }
 
 description = 'A base plugin to improve dependency insight and handle all dependency applies'
@@ -41,8 +41,3 @@ gradlePlugin {
     }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-}
